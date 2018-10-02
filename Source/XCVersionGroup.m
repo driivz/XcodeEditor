@@ -21,7 +21,11 @@
 #pragma mark - Class Methods
 //-------------------------------------------------------------------------------------------
 
-+ (XCVersionGroup*)versionGroupWithProject:(XCProject*)project key:(NSString*)key path:(NSString*)path children:(NSArray*)children currentVersion:(NSString*)currentVersion
++ (XCVersionGroup*)versionGroupWithProject:(XCProject*)project
+                                       key:(NSString*)key
+                                      path:(NSString*)path
+                                  children:(NSArray*)children
+                            currentVersion:(NSString*)currentVersion
 {
     return [[XCVersionGroup alloc] initWithProject:project key:key path:path children:children currentVersion:currentVersion];
 }
@@ -30,10 +34,13 @@
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-- (id)initWithProject:(XCProject*)project key:(NSString*)key path:(NSString*)path children:(NSArray*)children currentVersion:(NSString*)currentVersion
+- (instancetype)initWithProject:(XCProject*)project
+                            key:(NSString*)key
+                           path:(NSString*)path
+                       children:(NSArray*)children
+                 currentVersion:(NSString*)currentVersion
 {
-    self = [super init];
-    if (self)
+    if (self = [super init])
     {
         _project = project;
         _fileOperationQueue = [_project fileOperationQueue];
@@ -47,6 +54,7 @@
             _children = [[NSMutableArray alloc] init];
         }
     }
+    
     return self;
 }
 
@@ -101,12 +109,12 @@
 
 - (void)addDataModelSource:(XCSourceFileDefinition*)sourceFileDefinition
 {
-    if([sourceFileDefinition type] == XCDataModel)
+    if ([sourceFileDefinition type] == XCDataModel)
     {
         [self makeGroupMemberWithName:[sourceFileDefinition sourceFileName]
-                                                 contents:[sourceFileDefinition data]
-                                                     type:[sourceFileDefinition type]
-                                       fileOperationStyle:[sourceFileDefinition fileOperationType]];
+                             contents:[sourceFileDefinition data]
+                                 type:[sourceFileDefinition type]
+                   fileOperationStyle:[sourceFileDefinition fileOperationType]];
         
         [_project objects][_key] = [self asDictionary];
     }
@@ -120,12 +128,12 @@
 //-------------------------------------------------------------------------------------------
 #pragma mark Members
 
-- (NSArray*)members
+- (NSArray *)members
 {
     if (_members == nil)
     {
         _members = [[NSMutableArray alloc] init];
-        for (NSString* childKey in _children)
+        for (NSString *childKey in _children)
         {
             XcodeMemberType type = [self typeForKey:childKey];
             
@@ -138,10 +146,11 @@
             }
         }
     }
+    
     return _members;
 }
 
-- (NSArray*)buildFileKeys
+- (NSArray *)buildFileKeys
 {
     NSMutableArray* arrayOfBuildFileKeys = [NSMutableArray array];
     for (id <XcodeGroupMember> groupMember in [self members])
@@ -157,12 +166,13 @@
             [arrayOfBuildFileKeys addObject:[groupMember key]];
         }
     }
+    
     return arrayOfBuildFileKeys;
 }
 
-- (XCSourceFile*)memberWithKey:(NSString*)key
+- (XCSourceFile *)memberWithKey:(NSString*)key
 {
-    XCSourceFile* groupMember = nil;
+    XCSourceFile *groupMember = nil;
     
     if ([_children containsObject:key])
     {
@@ -172,10 +182,11 @@
             groupMember = [_project fileWithKey:key];
         }
     }
+    
     return groupMember;
 }
 
-- (id <XcodeGroupMember>)memberWithDisplayName:(NSString*)name
+- (id <XcodeGroupMember>)memberWithDisplayName:(NSString *)name
 {
     for (id <XcodeGroupMember> member in [self members])
     {
@@ -184,6 +195,7 @@
             return member;
         }
     }
+    
     return nil;
 }
 
@@ -205,22 +217,23 @@
     return [self typeForKey:self.key];
 }
 
-- (NSString*)displayName
+- (NSString *)displayName
 {
     if (_alias)
     {
         return _alias;
     }
+    
     return [_pathRelativeToParent lastPathComponent];
 }
 
-- (NSString*)pathRelativeToProjectRoot
+- (NSString *)pathRelativeToProjectRoot
 {
     if (_pathRelativeToProjectRoot == nil)
     {
         NSMutableArray* pathComponents = [[NSMutableArray alloc] init];
         XCGroup* group = nil;
-        NSString* key = [_key copy];
+        NSString *key = [_key copy];
         
         while ((group = [_project groupForGroupMemberWithKey:key]) != nil && [group pathRelativeToParent] != nil)
         {
@@ -235,6 +248,7 @@
         }
         _pathRelativeToProjectRoot = [[fullPath stringByAppendingPathComponent:_pathRelativeToParent] copy];
     }
+    
     return _pathRelativeToProjectRoot;
 }
 
@@ -250,14 +264,14 @@
     if (_buildFileKey == nil) {
         [[_project objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
             if ([[obj valueForKey:@"isa"] xce_hasBuildFileType]) {
-                if ([[obj valueForKey:@"fileRef"] isEqualToString:_key]) {
-                    _buildFileKey = [key copy];
+                if ([[obj valueForKey:@"fileRef"] isEqualToString:self->_key]) {
+                    self->_buildFileKey = [key copy];
                 }
             }
         }];
     }
-    return [_buildFileKey copy];
     
+    return [_buildFileKey copy];
 }
 
 
@@ -278,14 +292,15 @@
         _isBuildFile = @NO;
         [[_project objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
             if ([[obj valueForKey:@"isa"] xce_hasBuildFileType]) {
-                if ([[obj valueForKey:@"fileRef"] isEqualToString:_key]) {
-                    _isBuildFile = nil;
+                if ([[obj valueForKey:@"fileRef"] isEqualToString:self->_key]) {
+                    self->_isBuildFile = nil;
                     
-                    _isBuildFile = @YES;
+                    self->_isBuildFile = @YES;
                 }
             }
         }];
     }
+    
     return [_isBuildFile boolValue];
 }
 
@@ -301,9 +316,9 @@
 #pragma mark - Private Methods
 //-------------------------------------------------------------------------------------------
 
-- (void)addMemberWithKey:(NSString*)key
+- (void)addMemberWithKey:(NSString *)key
 {
-    for (NSString* childKey in _children)
+    for (NSString *childKey in _children)
     {
         if ([childKey isEqualToString:key])
         {
@@ -311,6 +326,7 @@
             return;
         }
     }
+    
     [_children addObject:key];
     [self flagMembersAsDirty];
 }
@@ -322,12 +338,13 @@
 
 //-------------------------------------------------------------------------------------------
 
-- (NSString*)makeGroupMemberWithName:(NSString*)name contents:(id)contents type:(XcodeSourceFileType)type
-                  fileOperationStyle:(XCFileOperationType)fileOperationStyle
+- (NSString *)makeGroupMemberWithName:(NSString*)name
+                             contents:(id)contents type:(XcodeSourceFileType)type
+                   fileOperationStyle:(XCFileOperationType)fileOperationStyle
 {
-    NSString*fileKey;
-    NSString* filePath;
-    XCSourceFile* currentSourceFile = (XCSourceFile*) [self memberWithDisplayName:name];
+    NSString *fileKey;
+    NSString *filePath;
+    XCSourceFile *currentSourceFile = (XCSourceFile*) [self memberWithDisplayName:name];
     if ((currentSourceFile) == nil)
     {
         NSString *refName = nil;
@@ -383,14 +400,16 @@
 
 // creates PBXFileReference and adds to group if not already there;  returns key for file reference.  Locates
 // member via path rather than name, because that is how subprojects are stored by Xcode
-- (void)makeGroupMemberWithName:(NSString*)name path:(NSString*)path type:(XcodeSourceFileType)type
+- (void)makeGroupMemberWithName:(NSString*)name
+                           path:(NSString*)path
+                           type:(XcodeSourceFileType)type
              fileOperationStyle:(XCFileOperationType)fileOperationStyle
 {
     XCSourceFile* currentSourceFile = (XCSourceFile*) [self memberWithDisplayName:name];
     if ((currentSourceFile) == nil)
     {
         NSDictionary* reference = [self makeFileReferenceWithPath:path name:name type:type];
-        NSString* fileKey = [[XCKeyBuilder forItemNamed:name] build];
+        NSString *fileKey = [[XCKeyBuilder forItemNamed:name] build];
         [_project objects][fileKey] = reference;
         [self addMemberWithKey:fileKey];
     }
@@ -412,14 +431,14 @@
 // they are not required because we are currently not adding these entries;  Xcode is doing it for us. The existing
 // code for adding to a target doesn't do it, and I didn't add it since Xcode will take care of it for me and I was
 // avoiding modifying existing code as much as possible)
-- (void)removeBuildPhaseFileKey:(NSString*)key forType:(XcodeMemberType)memberType
+- (void)removeBuildPhaseFileKey:(NSString *)key forType:(XcodeMemberType)memberType
 {
     NSArray* buildPhases = [_project keysForProjectObjectsOfType:memberType withIdentifier:nil singleton:NO required:NO];
-    for (NSString* buildPhaseKey in buildPhases)
+    for (NSString *buildPhaseKey in buildPhases)
     {
-        NSDictionary* buildPhaseDict = [[_project objects] valueForKey:buildPhaseKey];
+        NSDictionary *buildPhaseDict = [[_project objects] valueForKey:buildPhaseKey];
         NSMutableArray* fileKeys = [buildPhaseDict valueForKey:@"files"];
-        for (NSString* fileKey in fileKeys)
+        for (NSString *fileKey in fileKeys)
         {
             if ([fileKey isEqualToString:key])
             {
@@ -430,17 +449,17 @@
 }
 
 // removes entries from PBXBuildFiles, PBXFrameworksBuildPhase and PBXResourcesBuildPhase
-- (void)removeProductsGroupFromProject:(NSString*)key
+- (void)removeProductsGroupFromProject:(NSString *)key
 {
     // remove product group's build products from PDXBuildFiles
     NSDictionary* productsGroup = _project.objects[key];
-    for (NSString* childKey in [productsGroup valueForKey:@"children"])
+    for (NSString *childKey in [productsGroup valueForKey:@"children"])
     {
         NSArray* buildFileKeys = [_project keysForProjectObjectsOfType:PBXBuildFileType withIdentifier:childKey singleton:NO required:NO];
         // could be zero - we didn't add the test bundle as a build product
         if ([buildFileKeys count] == 1)
         {
-            NSString* buildFileKey = buildFileKeys[0];
+            NSString *buildFileKey = buildFileKeys[0];
             [[_project objects] removeObjectForKey:buildFileKey];
             [self removeBuildPhaseFileKey:buildFileKey forType:PBXFrameworksBuildPhaseType];
             [self removeBuildPhaseFileKey:buildFileKey forType:PBXResourcesBuildPhaseType];
@@ -452,7 +471,7 @@
 
 #pragma mark Dictionary Representations
 
-- (NSDictionary*)makeFileReferenceWithPath:(NSString*)path name:(NSString*)name type:(XcodeSourceFileType)type
+- (NSDictionary *)makeFileReferenceWithPath:(NSString *)path name:(NSString*)name type:(XcodeSourceFileType)type
 {
     NSMutableDictionary* reference = [NSMutableDictionary dictionary];
     reference[@"isa"] = [NSString xce_stringFromMemberType:PBXFileReferenceType];
@@ -467,11 +486,12 @@
         reference[@"path"] = path;
     }
     reference[@"sourceTree"] = @"<group>";
+    
     return reference;
 }
 
 
-- (NSDictionary*)asDictionary
+- (NSDictionary *)asDictionary
 {
     NSMutableDictionary* groupData = [NSMutableDictionary dictionary];
     groupData[@"isa"] = [NSString xce_stringFromMemberType:XCVersionGroupType];
@@ -501,13 +521,13 @@
     return groupData;
 }
 
-- (XcodeMemberType)typeForKey:(NSString*)key
+- (XcodeMemberType)typeForKey:(NSString *)key
 {
-    NSDictionary* obj = [[_project objects] valueForKey:key];
+    NSDictionary *obj = [[_project objects] valueForKey:key];
     return [[obj valueForKey:@"isa"] xce_asMemberType];
 }
 
-- (void)addSourceFile:(XCSourceFile*)sourceFile toTargets:(NSArray*)targets
+- (void)addSourceFile:(XCSourceFile *)sourceFile toTargets:(NSArray *)targets
 {
     for (XCTarget* target in targets)
     {

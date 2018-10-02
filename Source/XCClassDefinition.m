@@ -18,10 +18,6 @@
 @implementation XCClassDefinition
 
 
-@synthesize className = _className;
-@synthesize header = _header;
-@synthesize source = _source;
-
 /* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
@@ -38,15 +34,14 @@
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithName:(NSString*)className
+- (instancetype)initWithName:(NSString*)className
 {
     return [self initWithName:className language:ObjectiveC];
 }
 
-- (id)initWithName:(NSString*)className language:(ClassDefinitionLanguage)language
+- (instancetype)initWithName:(NSString*)className language:(ClassDefinitionLanguage)language
 {
-    self = [super init];
-    if (self)
+    if (self = [super init])
     {
         _className = [className copy];
         if (!(language == ObjectiveC || language == ObjectiveCPlusPlus || language == CPlusPlus))
@@ -55,6 +50,7 @@
         }
         _language = language;
     }
+    
     return self;
 }
 
@@ -80,12 +76,12 @@
 - (NSString*)headerFileName
 {
     return [_className stringByAppendingString:@".h"];
-
+    
 }
 
 - (NSString*)sourceFileName
 {
-    NSString* sourceFileName = nil;
+    NSString *sourceFileName = nil;
     if ([self isObjectiveC])
     {
         sourceFileName = [_className stringByAppendingString:@".m"];
@@ -98,6 +94,7 @@
     {
         sourceFileName = [_className stringByAppendingString:@".cpp"];
     }
+    
     return sourceFileName;
 }
 

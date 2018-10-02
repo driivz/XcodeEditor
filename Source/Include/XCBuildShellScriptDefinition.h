@@ -11,7 +11,7 @@
 
 @interface XCBuildShellScriptDefinition : XCAbstractDefinition
 {
-    NSString* _key;
+    NSString *_key;
     
 @private
     BOOL _runOnlyForDeploymentPostprocessing;
@@ -23,33 +23,33 @@
     NSString*_shellScript;
 }
 
-@property(nonatomic, strong, readonly,nonnull) NSString* key;
-@property(nonatomic, strong, readonly,nonnull) NSString* name;
-@property(nonatomic,readonly) BOOL runOnlyForDeploymentPostprocessing;
-@property(nonatomic,nonnull,strong,readonly) NSString*shellScript;
-@property(nonatomic,nonnull,strong,readonly) NSString*shellPath;
-@property(nonatomic,nonnull,strong,readonly) NSArray<NSString*>*files;
-@property(nonatomic,nonnull,strong,readonly) NSArray<NSString*>*inputPaths;
-@property(nonatomic,nonnull,strong,readonly) NSArray<NSString*>*outputPaths;
+@property (nonatomic, nonnull, strong, readonly) NSString *key;
+@property (nonatomic, nonnull, strong, readonly) NSString *name;
+@property (nonatomic, readonly) BOOL runOnlyForDeploymentPostprocessing;
+@property (nonatomic, nonnull, strong, readonly) NSString*shellScript;
+@property (nonatomic, nonnull, strong, readonly) NSString*shellPath;
+@property (nonatomic, nonnull, strong, readonly) NSArray<NSString*>*files;
+@property (nonatomic, nonnull, strong, readonly) NSArray<NSString*>*inputPaths;
+@property (nonatomic, nonnull, strong, readonly) NSArray<NSString*>*outputPaths;
 
 //-------------------------------------------------------------------------------------------
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-+ (XCBuildShellScriptDefinition*_Nonnull)shellScriptDefinitionWithName:( NSString* _Nullable )name
-                                             files: (NSArray<NSString*>* _Nullable)files
-                                        inputPaths:(NSArray<NSString*>* _Nullable)inputPaths
-                                       outputPaths:(NSArray<NSString*>* _Nullable)outputPaths
-                runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
-                                         shellPath:(NSString*_Nullable)shellPath
-                                       shellScript:(NSString*_Nonnull)shellScript;
++ (XCBuildShellScriptDefinition*_Nonnull)shellScriptDefinitionWithName:(NSString * _Nullable )name
+                                                                 files:(NSArray <NSString *> * _Nullable)files
+                                                            inputPaths:(NSArray <NSString *> * _Nullable)inputPaths
+                                                           outputPaths:(NSArray <NSString *> * _Nullable)outputPaths
+                                    runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
+                                                             shellPath:(NSString * _Nullable)shellPath
+                                                           shellScript:(NSString * _Nonnull)shellScript;
 
-- (instancetype _Nonnull)initWithName:( NSString* _Nullable )name
-                                files: (NSArray<NSString*>* _Nullable)files
-                           inputPaths:(NSArray<NSString*>* _Nullable)inputPaths
-                          outputPaths:(NSArray<NSString*>* _Nullable)outputPaths
+- (instancetype _Nonnull)initWithName:(NSString * _Nullable )name
+                                files:(NSArray <NSString *> * _Nullable)files
+                           inputPaths:(NSArray <NSString *> * _Nullable)inputPaths
+                          outputPaths:(NSArray <NSString *> * _Nullable)outputPaths
    runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
-                            shellPath:(NSString*_Nullable)shellPath
-                          shellScript:(NSString*_Nonnull)shellScript;
+                            shellPath:(NSString *_Nullable)shellPath
+                          shellScript:(NSString *_Nonnull)shellScript;
 
 @end

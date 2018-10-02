@@ -27,13 +27,13 @@ typedef struct
     unsigned char _value[HASH_VALUE_STORAGE_SIZE];
 }
 
-+ (XCKeyBuilder*)forItemNamed:(NSString*)name;
++ (XCKeyBuilder *)forItemNamed:(NSString *)name;
 
-+ (XCKeyBuilder*)createUnique;
++ (XCKeyBuilder *)createUnique;
 
-- (id)initHashValueMD5HashWithBytes:(const void*)bytes length:(NSUInteger)length;
+- (instancetype)initHashValueMD5HashWithBytes:(const void *)bytes length:(NSUInteger)length;
 
-- (NSString*)build;
+- (NSString *)build;
 
 @end
 

@@ -16,10 +16,6 @@
 
 @implementation XCFrameworkDefinition
 
-@synthesize filePath = _filePath;
-@synthesize copyToDestination = _copyToDestination;
-@synthesize sourceTree = _sourceTree;
-
 //-------------------------------------------------------------------------------------------
 #pragma mark - Class Methods
 //-------------------------------------------------------------------------------------------
@@ -27,7 +23,9 @@
 + (XCFrameworkDefinition *)frameworkDefinitionWithFilePath:(NSString *)filePath
                                          copyToDestination:(BOOL)copyToDestination
 {
-    return [XCFrameworkDefinition frameworkDefinitionWithFilePath:filePath copyToDestination:copyToDestination sourceTree:SourceTreeGroup];
+    return [XCFrameworkDefinition frameworkDefinitionWithFilePath:filePath
+                                                copyToDestination:copyToDestination
+                                                       sourceTree:SourceTreeGroup];
 }
 
 + (XCFrameworkDefinition *)frameworkDefinitionWithFilePath:(NSString *)filePath
@@ -35,26 +33,33 @@
                                                 sourceTree:(XcodeSourceTreeType)sourceTree
 {
     
-    return [[XCFrameworkDefinition alloc] initWithFilePath:filePath copyToDestination:copyToDestination sourceTree:sourceTree];
+    return [[XCFrameworkDefinition alloc] initWithFilePath:filePath
+                                         copyToDestination:copyToDestination
+                                                sourceTree:sourceTree];
 }
 
 //-------------------------------------------------------------------------------------------
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-- (id)initWithFilePath:(NSString *)filePath copyToDestination:(BOOL)copyToDestination
+- (instancetype)initWithFilePath:(NSString *)filePath
+               copyToDestination:(BOOL)copyToDestination
 {
-    return [self initWithFilePath:filePath copyToDestination:copyToDestination sourceTree:SourceTreeGroup];
+    return [self initWithFilePath:filePath
+                copyToDestination:copyToDestination
+                       sourceTree:SourceTreeGroup];
 }
 
-- (id)initWithFilePath:(NSString *)filePath copyToDestination:(BOOL)copyToDestination sourceTree:(XcodeSourceTreeType)sourceTree
+- (instancetype)initWithFilePath:(NSString *)filePath
+               copyToDestination:(BOOL)copyToDestination
+                      sourceTree:(XcodeSourceTreeType)sourceTree
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _filePath = [filePath copy];
         _copyToDestination = copyToDestination;
         _sourceTree = sourceTree;
     }
+    
     return self;
 }
 

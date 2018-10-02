@@ -11,15 +11,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum
+typedef NS_ENUM(NSUInteger, XcodeSourceTreeType)
 {
     SourceTreeSDKRoot,
     SourceTreeGroup
-} XcodeSourceTreeType;
+};
 
 @interface NSString (XcodeSourceTreeTypeExtensions)
 
-+ (NSString*)xce_stringFromSourceTreeType:(XcodeSourceTreeType)nodeType;
++ (NSString *)xce_stringFromSourceTreeType:(XcodeSourceTreeType)nodeType;
 
 - (XcodeSourceTreeType)xce_asSourceTreeType;
 

@@ -20,7 +20,7 @@
 
 @interface XCSubProjectDefinition : XCAbstractDefinition
 {
-
+    
     NSString *_name;
     NSString *_path;
     XcodeSourceFileType _type;
@@ -40,9 +40,13 @@
 @property (nonatomic, strong, readonly) NSString *key;
 @property (nonatomic, strong, readwrite) NSString *fullProjectPath;
 
-+ (XCSubProjectDefinition *)withName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject;
++ (XCSubProjectDefinition *)withName:(NSString *)name
+                                path:(NSString *)path
+                       parentProject:(XCProject *)parentProject;
 
-- (id)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject;
+- (instancetype)initWithName:(NSString *)name
+                        path:(NSString *)path
+               parentProject:(XCProject *)parentProject;
 
 - (NSString *)projectFileName;
 

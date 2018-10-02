@@ -21,22 +21,13 @@
 
 @implementation XCSubProjectDefinition
 
-@synthesize name = _name;
-@synthesize path = _path;
-@synthesize type = _type;
-@synthesize parentProject = _parentProject;
-@synthesize subProject = _subProject;
-@synthesize relativePath = _relativePath;
-@synthesize key = _key;
-@synthesize fullProjectPath = _fullProjectPath;
-
 //-------------------------------------------------------------------------------------------
 #pragma mark - Class Methods
 //-------------------------------------------------------------------------------------------
 
 + (XCSubProjectDefinition *)withName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
 {
-
+    
     return [[XCSubProjectDefinition alloc] initWithName:name path:path parentProject:parentProject];
 }
 
@@ -46,16 +37,16 @@
 
 // Note - _path is most often going to be an absolute path.  The method pathRelativeToProjectRoot below should be
 // used to get the form that's stored in the main project file.
-- (id)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
+- (instancetype)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _name = [name copy];
         _path = [path copy];
         _type = XcodeProject;
         _parentProject = parentProject;
         _subProject = [[XCProject alloc] initWithFilePath:[NSString stringWithFormat:@"%@/%@.xcodeproj", path, name]];
     }
+    
     return self;
 }
 
@@ -89,6 +80,7 @@
             }
         }
     }];
+    
     return results;
 }
 
@@ -97,9 +89,10 @@
 {
     if (_key == nil) {
         NSArray *xcodeprojKeys = [_parentProject keysForProjectObjectsOfType:PBXFileReferenceType
-            withIdentifier:[self pathRelativeToProjectRoot] singleton:YES required:YES];
+                                                              withIdentifier:[self pathRelativeToProjectRoot] singleton:YES required:YES];
         _key = [[xcodeprojKeys objectAtIndex:0] copy];
     }
+    
     return [_key copy];
 }
 
@@ -111,7 +104,7 @@
         fullProjectPath = [[NSString pathWithComponents:fullPathComponents] stringByAppendingFormat:@"/%@", groupPath];
     }
     _fullProjectPath = [fullProjectPath copy];
-
+    
 }
 
 // compares the given path to the filePath of the project, and returns a relative version. _fullProjectPath, which has
@@ -125,15 +118,15 @@
         NSMutableArray *projectPathComponents = [[_fullProjectPath pathComponents] mutableCopy];
         NSArray *objectPathComponents = [[self fullPathName] pathComponents];
         NSString *convertedPath = @"";
-
+        
         // skip over path components from root that are equal
         NSInteger limit =
-            ([projectPathComponents count] < [objectPathComponents count]) ? [projectPathComponents count] :
-                [objectPathComponents count];
+        ([projectPathComponents count] < [objectPathComponents count]) ? [projectPathComponents count] :
+        [objectPathComponents count];
         NSInteger index1 = 0;
         for (; index1 < limit; index1++) {
             if ([[projectPathComponents objectAtIndex:index1]
-                isEqualToString:[objectPathComponents objectAtIndex:index1]]) {
+                 isEqualToString:[objectPathComponents objectAtIndex:index1]]) {
                 continue;
             }
             else {
@@ -150,6 +143,7 @@
         }
         _relativePath = [[convertedPath stringByAppendingString:[objectPathComponents lastObject]] copy];
     }
+    
     return [_relativePath copy];
 }
 

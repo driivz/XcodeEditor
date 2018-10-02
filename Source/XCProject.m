@@ -39,21 +39,22 @@ NSString *const XCProjectNotFoundException;
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-- (id)initWithFilePath:(NSString *)filePath
+- (instancetype)initWithFilePath:(NSString *)filePath
 {
     if ((self = [super init])) {
         _filePath = [filePath copy];
         _dataStore = [[NSMutableDictionary alloc]
-                initWithContentsOfFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
-
+                      initWithContentsOfFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"]];
+        
         if (!_dataStore) {
             [NSException raise:XCProjectNotFoundException format:@"Project file not found at file path %@", _filePath];
         }
-
+        
         _fileOperationQueue =
-                [[XCFileOperationQueue alloc] initWithBaseDirectory:[_filePath stringByDeletingLastPathComponent]];
-
+        [[XCFileOperationQueue alloc] initWithBaseDirectory:[_filePath stringByDeletingLastPathComponent]];
+        
     }
+    
     return self;
 }
 
@@ -79,6 +80,7 @@ NSString *const XCProjectNotFoundException;
             return [self groupWithKey:key];
         }
     }
+    
     return nil;
 }
 
@@ -90,7 +92,7 @@ NSString *const XCProjectNotFoundException;
     [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
         if ([[obj valueForKey:@"isa"] xce_hasFileReferenceType]) {
             XcodeSourceFileType fileType = XCSourceFileTypeFromStringRepresentation(
-                    [obj valueForKey:@"lastKnownFileType"] ?: [obj valueForKey:@"explicitFileType"]);
+                                                                                    [obj valueForKey:@"lastKnownFileType"] ?: [obj valueForKey:@"explicitFileType"]);
             NSString *path = [obj valueForKey:@"path"];
             NSString *sourceTree = [obj valueForKey:@"sourceTree"];
             XCSourceFile *sourceFile = [XCSourceFile sourceFileWithProject:self key:key type:fileType name:path
@@ -98,6 +100,7 @@ NSString *const XCProjectNotFoundException;
             [results addObject:sourceFile];
         }
     }];
+    
     return results;
 }
 
@@ -106,28 +109,32 @@ NSString *const XCProjectNotFoundException;
     NSDictionary *obj = [[self objects] valueForKey:key];
     if (obj && [[obj valueForKey:@"isa"] xce_hasFileReferenceOrReferenceProxyType]) {
         XcodeSourceFileType fileType = XCSourceFileTypeFromStringRepresentation(
-                [obj valueForKey:@"lastKnownFileType"] ?: [obj valueForKey:@"explicitFileType"]);
-
+                                                                                [obj valueForKey:@"lastKnownFileType"] ?: [obj valueForKey:@"explicitFileType"]);
+        
         NSString *name = [obj valueForKey:@"name"];
         NSString *sourceTree = [obj valueForKey:@"sourceTree"];
         NSString *path = [obj valueForKey:@"path"];
-
+        
         if (name == nil) {
             name = path;
         }
+        
         return [XCSourceFile sourceFileWithProject:self key:key type:fileType name:name
                                         sourceTree:(sourceTree ?: @"<_group>") path:path];
     }
+    
     return nil;
 }
 
 - (XCSourceFile *)fileWithName:(NSString *)name
 {
+#warning OPTIMIZE
     for (XCSourceFile *projectFile in [self files]) {
         if ([[projectFile name] isEqualToString:name]) {
             return projectFile;
         }
     }
+    
     return nil;
 }
 
@@ -173,98 +180,110 @@ NSString *const XCProjectNotFoundException;
     NSMutableArray *results = [[NSMutableArray alloc] init];
     [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
         if ([[obj valueForKey:@"isa"] xce_hasGroupType]) {
-            XCGroup *group = _groups[key];
+            XCGroup *group = self->_groups[key];
             if (group == nil) {
                 group = [self createGroupWithDictionary:obj forKey:key];
-                _groups[key] = group;
+                self->_groups[key] = group;
             }
             [results addObject:group];
         }
     }];
+    
     return results;
 }
 
 //TODO: Optimize this implementation.
 - (XCGroup *)rootGroup
 {
+#warning OPTIMIZE
     for (XCGroup *group in [self groups]) {
         if ([group isRootGroup]) {
             return group;
         }
     }
+    
     return nil;
 }
 
 - (NSArray *)rootGroups
 {
+#warning OPTIMIZE
     XCGroup *group = [self rootGroup];
     if (group) {
         return [NSArray arrayWithObject:group];
     }
-
+    
     NSMutableArray *results = [NSMutableArray array];
     for (XCGroup *group in [self groups]) {
         if ([group parentGroup] == nil) {
             [results addObject:group];
         }
     }
-
+    
     return [results copy];
 }
 
 - (XCGroup *)mainGroup
 {
-    NSString* rootObjectKey = [self rootObjectKey];
-    NSDictionary* rootObject = [[self objects] objectForKey:rootObjectKey];
-    NSString* mainGroupKey = [rootObject objectForKey:@"mainGroup"];
-    for (XCGroup* group in [self groups]) {
+#warning OPTIMIZE
+    NSString *rootObjectKey = [self rootObjectKey];
+    NSDictionary *rootObject = [[self objects] objectForKey:rootObjectKey];
+    NSString *mainGroupKey = [rootObject objectForKey:@"mainGroup"];
+    for (XCGroup * group in [self groups]) {
         if ([group.key isEqualToString:mainGroupKey])
-             return group;
+            return group;
     }
-             
+    
     return nil;
 }
 
 - (XCGroup *)groupWithKey:(NSString *)key
 {
+#warning OPTIMIZE
     XCGroup *group = [_groups objectForKey:key];
     if (group) {
         return group;
     }
-
+    
     NSDictionary *obj = [[self objects] objectForKey:key];
     if (obj && [[obj valueForKey:@"isa"] xce_hasGroupType]) {
         XCGroup *group = [self createGroupWithDictionary:obj forKey:key];
         _groups[key] = group;
-
+        
         return group;
     }
+    
     return nil;
 }
 
 - (XCGroup *)groupWithDisplayName:(NSString *)name
 {
+#warning OPTIMIZE
     for (XCGroup *group in [self groups]) {
         if ([[group displayName] isEqualToString:name]) {
             return group;
         }
     }
+    
     return nil;
 }
 
 
 - (XCGroup *)groupForGroupMemberWithKey:(NSString *)key
 {
+#warning OPTIMIZE
     for (XCGroup *group in [self groups]) {
         if ([group memberWithKey:key]) {
             return group;
         }
     }
+    
     return nil;
 }
 
 - (XCGroup *)groupWithSourceFile:(XCSourceFile *)sourceFile
 {
+#warning OPTIMIZE
     for (XCGroup *group in [self groups]) {
         for (id <XcodeGroupMember> member in [group members]) {
             if ([member isKindOfClass:[XCSourceFile class]] && [[sourceFile key] isEqualToString:[member key]]) {
@@ -272,6 +291,7 @@ NSString *const XCProjectNotFoundException;
             }
         }
     }
+    
     return nil;
 }
 
@@ -295,6 +315,7 @@ NSString *const XCProjectNotFoundException;
             return nil;
         }
     }
+    
     return currentGroup;
 }
 
@@ -305,29 +326,30 @@ NSString *const XCProjectNotFoundException;
                                alias:[dictionary valueForKey:@"name"]
                                 path:[dictionary valueForKey:@"path"]
                             children:[dictionary valueForKey:@"children"]
-            memberType:[[dictionary valueForKey:@"isa"] xce_asMemberType]];
+                          memberType:[[dictionary valueForKey:@"isa"] xce_asMemberType]];
 }
 
 //-------------------------------------------------------------------------------------------
 #pragma mark version group
 //-------------------------------------------------------------------------------------------
 
-- (NSArray*)versionGroups
+- (NSArray *)versionGroups
 {
     NSMutableArray* results = [[NSMutableArray alloc] init];
-    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSDictionary* obj, BOOL* stop)
+    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary* obj, BOOL* stop)
      {
          if ([[obj valueForKey:@"isa"] xce_hasVersionedGroupType])
          {
-             XCVersionGroup* group = _versionGroups[key];
+             XCVersionGroup* group = self->_versionGroups[key];
              if (group == nil)
              {
                  group = [self createVersionGroupWithDictionary:obj forKey:key];
-                 _versionGroups[key] = group;
+                 self->_versionGroups[key] = group;
              }
              [results addObject:group];
          }
      }];
+    
     return results;
 }
 
@@ -347,16 +369,19 @@ NSString *const XCProjectNotFoundException;
         
         return group;
     }
+    
     return nil;
 }
 
 - (XCVersionGroup *)versionGroupWithName:(NSString *)name
 {
+#warning OPTIMIZE
     for (XCVersionGroup* group in [self versionGroups])
     {
         if([[[group pathRelativeToParent] stringByDeletingPathExtension]isEqualToString:name])
             return group;
     }
+    
     return nil;
 }
 
@@ -382,28 +407,32 @@ NSString *const XCProjectNotFoundException;
                 XCTarget *target = [XCTarget targetWithProject:self key:key name:[obj valueForKey:@"name"]
                                                    productName:[obj valueForKey:@"productName"]
                                               productReference:[obj valueForKey:@"productReference"]
-                                              productType:[obj valueForKey:@"productType"]];
-                [_targets addObject:target];
+                                                   productType:[obj valueForKey:@"productType"]];
+                [self->_targets addObject:target];
             }
         }];
     }
+    
     return _targets;
 }
 
 - (XCTarget *)targetWithName:(NSString *)name
 {
+#warning OPTIMIZE
     for (XCTarget *target in [self targets]) {
         if ([[target name] isEqualToString:name]) {
             return target;
         }
     }
+    
     return nil;
 }
 
-- (NSArray*)applicationTargets
+- (NSArray *)applicationTargets
 {
-    NSArray* targets = [self targets];
-    NSArray* filteredTargets = [targets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+#warning OPTIMIZE
+    NSArray *targets = [self targets];
+    NSArray *filteredTargets = [targets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary <NSString *,id> * _Nullable bindings) {
         return [evaluatedObject isApplicationType];
     }]];
     
@@ -414,7 +443,7 @@ NSString *const XCProjectNotFoundException;
 {
     NSString *source = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *destination = @"".mutableCopy;
-    for(int i = 0; i < source.length; i++) {
+    for (NSUInteger i = 0; i < source.length; ++i) {
         unichar c = [source characterAtIndex:i];
         if(c < 128) {
             [destination appendFormat:@"%c", c];
@@ -429,14 +458,14 @@ NSString *const XCProjectNotFoundException;
 - (void)save
 {
     [_fileOperationQueue commitFileOperations];
-
+    
     NSData *data = [NSPropertyListSerialization dataWithPropertyList:_dataStore format:NSPropertyListXMLFormat_v1_0 options:0 error:NULL];
     data = [self _fixEncodingInData:data];
     [data writeToFile:[_filePath stringByAppendingPathComponent:@"project.pbxproj"] atomically:YES];
     
     // Don't forget to reset the cache so that we'll always get the latest data.
     [self dropCache];
-
+    
     NSLog(@"Saved project");
 }
 
@@ -462,14 +491,14 @@ NSString *const XCProjectNotFoundException;
 {
     if (_configurations == nil) {
         NSString *buildConfigurationRootSectionKey =
-                [[[self objects] objectForKey:[self rootObjectKey]] objectForKey:@"buildConfigurationList"];
+        [[[self objects] objectForKey:[self rootObjectKey]] objectForKey:@"buildConfigurationList"];
         NSDictionary *buildConfigurationDictionary = [[self objects] objectForKey:buildConfigurationRootSectionKey];
         _configurations =
-                [[XCProjectBuildConfig buildConfigurationsFromArray:[buildConfigurationDictionary objectForKey:@"buildConfigurations"]
-                                                          inProject:self] mutableCopy];
+        [[XCProjectBuildConfig buildConfigurationsFromArray:[buildConfigurationDictionary objectForKey:@"buildConfigurations"]
+                                                  inProject:self] mutableCopy];
         _defaultConfigurationName = [[buildConfigurationDictionary objectForKey:@"defaultConfigurationName"] copy];
     }
-
+    
     return [_configurations copy];
 }
 
@@ -488,10 +517,10 @@ NSString *const XCProjectNotFoundException;
 
 - (void)removeObjectWithKey:(NSString*)key
 {
-    if([self.objects valueForKey:key])
+    if ([self.objects valueForKey:key])
     {
         XCGroup *group;
-        if((group = [self groupForGroupMemberWithKey:key])!=nil)
+        if ((group = [self groupForGroupMemberWithKey:key]) != nil)
         {
             [group removeMemberWithKey:key];
         }
@@ -508,18 +537,20 @@ NSString *const XCProjectNotFoundException;
     if (_rootObjectKey == nil) {
         _rootObjectKey = [[_dataStore objectForKey:@"rootObject"] copy];;
     }
-
+    
     return _rootObjectKey;
 }
 
 - (NSArray *)projectFilesOfType:(XcodeSourceFileType)projectFileType
 {
+#warning OPTIMIZE
     NSMutableArray *results = [NSMutableArray array];
     for (XCSourceFile *file in [self files]) {
         if ([file type] == projectFileType) {
             [results addObject:file];
         }
     }
+    
     return results;
 }
 
@@ -536,6 +567,7 @@ NSString *const XCProjectNotFoundException;
     if (hadEmptyGroups) {
         [self doPruneEmptyGroups];
     }
+    
     return hadEmptyGroups;
 }
 

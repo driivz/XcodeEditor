@@ -21,13 +21,13 @@
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)init
+- (instancetype)init
 {
-    self = [super init];
-    if (self)
+    if (self = [super init])
     {
         _fileOperationType = XCFileOperationTypeOverwrite;
     }
+    
     return self;
 }
 

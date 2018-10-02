@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_OPTIONS(NSInteger, XcodeSourceFileType)
+typedef NS_ENUM(NSInteger, XcodeSourceFileType)
 {
     FileTypeNil = 0,             // Unknown filetype
     Framework = 1,               // .framework
@@ -41,9 +41,9 @@ typedef NS_OPTIONS(NSInteger, XcodeSourceFileType)
     LocalizableStrings = 25      // .strings
 };
 
-NSString* NSStringFromXCSourceFileType(XcodeSourceFileType type);
+NSString *NSStringFromXCSourceFileType(XcodeSourceFileType type);
 
-XcodeSourceFileType XCSourceFileTypeFromStringRepresentation(NSString* string);
+XcodeSourceFileType XCSourceFileTypeFromStringRepresentation(NSString *string);
 
-XcodeSourceFileType XCSourceFileTypeFromFileName(NSString* fileName);
+XcodeSourceFileType XCSourceFileTypeFromFileName(NSString *fileName);
 

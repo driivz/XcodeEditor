@@ -257,14 +257,14 @@ static const NSString *SDK_PATH =
 
 {
 
-    //    NSString* newXibText = @"Don't blow away my contents if I already exist";
+    //    NSString *newXibText = @"Don't blow away my contents if I already exist";
     //    XCXibDefinition* xibDefinition = [XCXibDefinition xibDefinitionWithName:@"AddedXibFile" content:newXibText];
     //    [xibDefinition setFileOperationType:XCFileOperationTypeAcceptExisting];
     //
     //    [_group addXib:xibDefinition toTargets:[project targets]];
     //    [project save];
     //
-    //    NSString* xibContent = NSStringWithXCTestResource(@"expanz-iOS-SDK/Source/Main/AddedXibFile.xib"];
+    //    NSString *xibContent = NSStringWithXCTestResource(@"expanz-iOS-SDK/Source/Main/AddedXibFile.xib"];
     //    NSLog(@"Xib content: %@", xibContent);
     //    XCTAssertNotEqualObjects(xibContent, newXibText);
 

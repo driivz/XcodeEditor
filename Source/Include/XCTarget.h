@@ -20,19 +20,19 @@
 @protocol XCBuildFile;
 
 /**
-* Represents a target in an xcode project.
-*/
+ * Represents a target in an xcode project.
+ */
 @interface XCTarget : NSObject
 {
-
+    
     XCProject* _project;
-    NSString* _key;
-    NSString* _name;
-    NSString* _productName;
-    NSString* _productReference;
-    NSString* _productType;
-    NSString* _defaultConfigurationName;
-
+    NSString *_key;
+    NSString *_name;
+    NSString *_productName;
+    NSString *_productReference;
+    NSString *_productType;
+    NSString *_defaultConfigurationName;
+    
 @private
     NSMutableArray* _members;
     NSMutableArray* _resources;
@@ -40,47 +40,55 @@
     NSMutableArray *_buildShellScripts;
 }
 
-@property(nonatomic, strong, readonly) NSString* key;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* productName;
-@property(nonatomic, strong, readonly) NSString* productReference;
-@property(nonatomic, strong, readonly) NSString* productType;
+@property(nonatomic, strong, readonly) NSString *key;
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSString *productName;
+@property(nonatomic, strong, readonly) NSString *productReference;
+@property(nonatomic, strong, readonly) NSString *productType;
 
-+ (XCTarget*)targetWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference productType:(NSString*)productType;
++ (XCTarget*)targetWithProject:(XCProject *)project
+                           key:(NSString *)key
+                          name:(NSString *)name
+                   productName:(NSString *)productName
+              productReference:(NSString *)productReference
+                   productType:(NSString *)productType;
 
-- (id)initWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference productType:(NSString*)productType;
+- (instancetype)initWithProject:(XCProject *)project
+                            key:(NSString *)key
+                           name:(NSString *)name
+                    productName:(NSString *)productName
+               productReference:(NSString *)productReference
+                    productType:(NSString *)productType;
 
-- (NSArray<XCSourceFile*>*)resources;
+- (NSArray <XCSourceFile *> *)resources;
 
-- (NSArray<id<XCBuildFile>>*)members;
+- (NSArray <id<XCBuildFile>> *)members;
 
-- (NSArray<XCBuildShellScript*>*)buildShellScripts;
+- (NSArray <XCBuildShellScript *> *)buildShellScripts;
 
-- (NSDictionary<NSString*,XCProjectBuildConfig*>*)configurations;
+- (NSDictionary <NSString *, XCProjectBuildConfig *> *)configurations;
 
-- (XCProjectBuildConfig *)configurationWithName:(NSString*)name;
+- (XCProjectBuildConfig *)configurationWithName:(NSString *)name;
 
 - (XCProjectBuildConfig *)defaultConfiguration;
 
 - (void)addMember:(id<XCBuildFile>)member;
 
-- (void)makeAndAddShellScript:(XCBuildShellScriptDefinition*)shellScript;
+- (void)makeAndAddShellScript:(XCBuildShellScriptDefinition *)shellScript;
 
-- (void)removeShellScriptByName:(NSString*)name;
+- (void)removeShellScriptByName:(NSString *)name;
 
-- (void)removeMemberWithKey:(NSString*)key;
+- (void)removeMemberWithKey:(NSString *)key;
 
-- (void)removeMembersWithKeys:(NSArray<NSString*>*)keys;
+- (void)removeMembersWithKeys:(NSArray <NSString *> *)keys;
 
-- (void)removeResourceWithKey:(NSString*)key;
+- (void)removeResourceWithKey:(NSString *)key;
 
-- (void)removeResourcesWithKeys:(NSArray<NSString*>*)keys;
+- (void)removeResourcesWithKeys:(NSArray <NSString *> *)keys;
 
-- (void)addDependency:(NSString*)key;
+- (void)addDependency:(NSString *)key;
 
-- (instancetype)duplicateWithTargetName:(NSString*)targetName productName:(NSString*)productName;
+- (instancetype)duplicateWithTargetName:(NSString *)targetName productName:(NSString *)productName;
 
 - (BOOL)isApplicationType;
 

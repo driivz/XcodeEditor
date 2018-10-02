@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum
+typedef NS_ENUM(NSUInteger, XcodeMemberType)
 {
     PBXNilType,
     PBXBuildFileType,
@@ -31,7 +31,7 @@ typedef enum
     XCConfigurationListType,
     PBXShellScriptBuildPhase,
     XCVersionGroupType
-} XcodeMemberType;
+};
 
 @interface NSString (XcodeMemberTypeExtensions)
 

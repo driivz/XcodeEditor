@@ -19,8 +19,8 @@
 @class XCProject;
 
 /**
-* Represents a file resource in an xcode project.
-*/
+ * Represents a file resource in an xcode project.
+ */
 @interface XCSourceFile : NSObject<XcodeGroupMember,XCBuildFile>
 {
     
@@ -42,11 +42,19 @@
 @property (nonatomic, strong, readonly) NSString *sourceTree;
 @property (nonatomic, strong) NSString *path;
 
-+ (XCSourceFile *)sourceFileWithProject:(XCProject *)project key:(NSString *)key type:(XcodeSourceFileType)type
-                                   name:(NSString *)name sourceTree:(NSString *)tree path:(NSString *)path;
++ (XCSourceFile *)sourceFileWithProject:(XCProject *)project
+                                    key:(NSString *)key
+                                   type:(XcodeSourceFileType)type
+                                   name:(NSString *)name
+                             sourceTree:(NSString *)tree
+                                   path:(NSString *)path;
 
-- (id)initWithProject:(XCProject *)project key:(NSString *)key type:(XcodeSourceFileType)type name:(NSString *)name
-           sourceTree:(NSString *)tree path:(NSString *)path;
+- (id)initWithProject:(XCProject *)project
+                  key:(NSString *)key
+                 type:(XcodeSourceFileType)type
+                 name:(NSString *)name
+           sourceTree:(NSString *)tree
+                 path:(NSString *)path;
 
 /**
  * If yes, indicates the file is able to be included for compilation in an `XCTarget`.

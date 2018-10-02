@@ -11,10 +11,10 @@
 
 #import "XcodeSourceTreeType.h"
 
-static NSString* const kPBXSourceTreeSKRoot= @"SDKROOT";
-static NSString* const kPBXSourceTreeGroup = @"<group>";
+static NSString * const kPBXSourceTreeSKRoot= @"SDKROOT";
+static NSString * const kPBXSourceTreeGroup = @"<group>";
 
-static NSDictionary* DictionaryWithProjectSourceTreeTypesAsStrings() {
+static NSDictionary * DictionaryWithProjectSourceTreeTypesAsStrings() {
     // This is the most vital operation on adding 500+ files
     // So, we caching this dictionary
     static NSDictionary* _projectNodeTypesAsStrings;
@@ -25,16 +25,17 @@ static NSDictionary* DictionaryWithProjectSourceTreeTypesAsStrings() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _projectNodeTypesAsStrings = @{
-                                       kPBXSourceTreeSKRoot              : @(SourceTreeSDKRoot),
-                                       kPBXSourceTreeGroup            : @(SourceTreeGroup),
+                                       kPBXSourceTreeSKRoot: @(SourceTreeSDKRoot),
+                                       kPBXSourceTreeGroup : @(SourceTreeGroup),
                                        };
     });
+    
     return _projectNodeTypesAsStrings;
 }
 
 @implementation NSString (XcodeSourceTreeTypeExtensions)
 
-+ (NSString*)xce_stringFromSourceTreeType:(XcodeSourceTreeType)nodeType {
++ (NSString *)xce_stringFromSourceTreeType:(XcodeSourceTreeType)nodeType {
     NSDictionary* nodeTypesToString = DictionaryWithProjectSourceTreeTypesAsStrings();
     return [[nodeTypesToString allKeysForObject:@(nodeType)] firstObject];
 }

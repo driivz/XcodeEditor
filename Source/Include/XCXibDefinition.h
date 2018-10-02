@@ -17,20 +17,20 @@
 
 @interface XCXibDefinition : XCAbstractDefinition
 {
-    NSString* _name;
-    NSString* _content;
+    NSString *_name;
+    NSString *_content;
 }
-@property(nonatomic, strong, readonly) NSString* name;
-@property(nonatomic, strong) NSString* content;
+@property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, strong) NSString *content;
 
-+ (XCXibDefinition*)xibDefinitionWithName:(NSString*)name;
++ (XCXibDefinition *)xibDefinitionWithName:(NSString *)name;
 
-+ (XCXibDefinition*)xibDefinitionWithName:(NSString*)name content:(NSString*)content;
++ (XCXibDefinition *)xibDefinitionWithName:(NSString *)name content:(NSString *)content;
 
-- (id)initWithName:(NSString*)name;
+- (instancetype)initWithName:(NSString *)name;
 
-- (id)initWithName:(NSString*)name content:(NSString*)content;
+- (instancetype)initWithName:(NSString *)name content:(NSString *)content;
 
-- (NSString*)xibFileName;
+- (NSString *)xibFileName;
 
 @end

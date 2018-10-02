@@ -19,16 +19,16 @@
 
 @implementation XCSourceFile
 
-@synthesize type = _type;
-@synthesize key = _key;
-@synthesize sourceTree = _sourceTree;
-
 //-------------------------------------------------------------------------------------------
 #pragma mark - Class Methods
 //-------------------------------------------------------------------------------------------
 
-+ (XCSourceFile *)sourceFileWithProject:(XCProject *)project key:(NSString *)key type:(XcodeSourceFileType)type
-                                   name:(NSString *)name sourceTree:(NSString *)_tree path:(NSString *)path
++ (XCSourceFile *)sourceFileWithProject:(XCProject *)project
+                                    key:(NSString *)key
+                                   type:(XcodeSourceFileType)type
+                                   name:(NSString *)name
+                             sourceTree:(NSString *)_tree
+                                   path:(NSString *)path
 {
     return [[XCSourceFile alloc] initWithProject:project key:key type:type name:name sourceTree:_tree path:path];
 }
@@ -38,12 +38,15 @@
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-- (id)initWithProject:(XCProject *)project key:(NSString *)key type:(XcodeSourceFileType)type name:(NSString *)name
-           sourceTree:(NSString *)tree path:(NSString *)path
+- (instancetype)initWithProject:(XCProject *)project
+                            key:(NSString *)key
+                           type:(XcodeSourceFileType)type
+                           name:(NSString *)name
+                     sourceTree:(NSString *)tree
+                           path:(NSString *)path
 {
     
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _project = project;
         _key = [key copy];
         _type = type;
@@ -51,6 +54,7 @@
         _sourceTree = [tree copy];
         _path = [path copy];
     }
+    
     return self;
 }
 
@@ -102,37 +106,46 @@
         _isBuildFile = @NO;
         [[_project objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
             if ([[obj valueForKey:@"isa"] xce_hasBuildFileType]) {
-                if ([[obj valueForKey:@"fileRef"] isEqualToString:_key]) {
-                    _isBuildFile = nil;
+                if ([[obj valueForKey:@"fileRef"] isEqualToString:self->_key]) {
+                    self->_isBuildFile = nil;
                     
-                    _isBuildFile = @YES;
+                    self->_isBuildFile = @YES;
                 }
             }
         }];
     }
+    
     return [_isBuildFile boolValue];
 }
 
 - (BOOL)canBecomeBuildFile
 {
-    return _type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus || _type == SourceCodeCPlusPlus || _type == XibFile || _type == Framework || _type == ImageResourcePNG || _type == HTML || _type == Bundle || _type == Archive || _type == AssetCatalog || _type == SourceCodeSwift || _type == PropertyList || _type == LocalizableStrings;
+    return _type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus ||
+            _type == SourceCodeCPlusPlus || _type == XibFile ||
+            _type == Framework || _type == ImageResourcePNG ||
+            _type == HTML || _type == Bundle || _type == Archive ||
+            _type == AssetCatalog || _type == SourceCodeSwift ||
+            _type == PropertyList || _type == LocalizableStrings;
 }
 
 
 - (XcodeMemberType)buildPhase
 {
-    if (_type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus || _type == SourceCodeCPlusPlus || _type == XibFile || _type == SourceCodeSwift) {
+    if (_type == SourceCodeObjC || _type == SourceCodeObjCPlusPlus || _type == SourceCodeCPlusPlus ||
+        _type == XibFile || _type == SourceCodeSwift) {
         return PBXSourcesBuildPhaseType;
     }
     else if (_type == Framework) {
         return PBXFrameworksBuildPhaseType;
     }
-    else if (_type == ImageResourcePNG || _type == HTML || _type == Bundle || _type == AssetCatalog ||  _type == PropertyList || _type == LocalizableStrings) {
+    else if (_type == ImageResourcePNG || _type == HTML || _type == Bundle || _type == AssetCatalog ||
+             _type == PropertyList || _type == LocalizableStrings) {
         return PBXResourcesBuildPhaseType;
     }
     else if (_type == Archive) {
         return PBXFrameworksBuildPhaseType;
     }
+    
     return PBXNilType;
 }
 
@@ -141,12 +154,13 @@
     if (_buildFileKey == nil) {
         [[_project objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
             if ([[obj valueForKey:@"isa"] xce_hasBuildFileType]) {
-                if ([[obj valueForKey:@"fileRef"] isEqualToString:_key]) {
-                    _buildFileKey = [key copy];
+                if ([[obj valueForKey:@"fileRef"] isEqualToString:self->_key]) {
+                    self->_buildFileKey = [key copy];
                 }
             }
         }];
     }
+    
     return [_buildFileKey copy];
     
 }
@@ -182,7 +196,7 @@
                 id fileRef = [obj valueForKey:@"fileRef"];
                 if (fileRef && [fileRef isKindOfClass:[NSString class]]) {
                     if ([fileRef isEqualToString:file.key]) {
-                        [_project removeObjectWithKey:key];
+                        [self->_project removeObjectWithKey:key];
                     }
                 }
             }
@@ -206,8 +220,8 @@
                 else {
                     replaceBuildFile[@"settings"] = compilerFlagsDict;
                 }
-                [[_project objects] removeObjectForKey:key];
-                [_project objects][key] = replaceBuildFile;
+                [[self->_project objects] removeObjectForKey:key];
+                [self->_project objects][key] = replaceBuildFile;
             }
         }
     }];
@@ -241,8 +255,8 @@
                         settingsDict[@"ATTRIBUTES"] = attr;
                     }
                 }
-                [[_project objects] removeObjectForKey:key];
-                [_project objects][key] = replaceBuildFile;
+                [[self->_project objects] removeObjectForKey:key];
+                [self->_project objects][key] = replaceBuildFile;
             }
         }
     }];

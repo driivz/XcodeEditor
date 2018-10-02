@@ -15,4 +15,5 @@
 - (XcodeMemberType)buildPhase;
 - (NSString *)buildFileKey;
 - (BOOL)isBuildFile;
+
 @end

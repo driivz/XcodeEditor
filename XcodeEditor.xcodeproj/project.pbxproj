@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,9 +15,11 @@
 		5D5AC8791C6A423C00E5B3DA /* XCBuildShellScriptDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AC8751C6A423C00E5B3DA /* XCBuildShellScriptDefinition.m */; };
 		5DC6E7591C6B72B9008FA743 /* XCVersionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC6E7571C6B72B9008FA743 /* XCVersionGroup.m */; };
 		6BE8FDB81C01C190001EF5B3 /* XcodeEditor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE8FDAD1C01C190001EF5B3 /* XcodeEditor.framework */; };
+		A5001E9821639B68002B396B /* XCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = BA79889EC526964B9E536C9B /* XCProject.m */; };
+		A5001E9921639B6C002B396B /* XCProject+SubProject.m in Sources */ = {isa = PBXBuildFile; fileRef = BA798CB9BB3A4BD2E144BF89 /* XCProject+SubProject.m */; };
+		A5001E9A21639BA5002B396B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA798ED8B847C8BEE5A56CF4 /* InfoPlist.strings */; };
 		BA7980BF50D23B7BEF646CEB /* XCProjectBuildConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BA79825B6294137CFC2609B9 /* XCProjectBuildConfig.m */; };
 		BA7980C2CFE1088A485DEF43 /* XCTestResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BA79870D516A14BE1922F109 /* XCTestResourceUtils.m */; };
-		BA7980F352BBC94B37A85B50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA798ED8B847C8BEE5A56CF4 /* InfoPlist.strings */; };
 		BA7981FCC7DFB418DFD25C9D /* XCSourceFileDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7982102090AE1FFBBA5C63 /* XCSourceFileDefinition.m */; };
 		BA79823125F335EF8C4A53CA /* XCSubProjectDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7987EBAFEB84C72B4C63D6 /* XCSubProjectDefinition.m */; };
 		BA798280BE8DA3E2AD97A04A /* XCGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BA79842F32FBBA0B05247673 /* XCGroup.m */; };
@@ -217,10 +219,10 @@
 			isa = PBXGroup;
 			children = (
 				E892C10F20149CFA00BED02B /* Package.swift */,
+				BA7986BDFB99098F8E646649 /* Source */,
 				6BE8FDAF1C01C190001EF5B3 /* XcodeEditor */,
 				6BE8FDBB1C01C190001EF5B3 /* XcodeEditorTests */,
 				6BE8FDAE1C01C190001EF5B3 /* Products */,
-				BA7986BDFB99098F8E646649 /* Source */,
 			);
 			sourceTree = "<group>";
 		};
@@ -668,7 +670,7 @@
 		6BE8FDA41C01C190001EF5B3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = appsquickly;
 				TargetAttributes = {
 					6BE8FDAC1C01C190001EF5B3 = {
@@ -680,7 +682,7 @@
 				};
 			};
 			buildConfigurationList = 6BE8FDA71C01C190001EF5B3 /* Build configuration list for PBXProject "XcodeEditor" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -702,7 +704,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA7980F352BBC94B37A85B50 /* InfoPlist.strings in Resources */,
 				BA7988A0432093FC3C9B81AD /* InfoPlist.strings in Resources */,
 				BA798AC943D831E9EF74B1C8 /* XcodeEditor-Info.plist in Resources */,
 			);
@@ -712,6 +713,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5001E9A21639BA5002B396B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +769,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5001E9821639B68002B396B /* XCProject.m in Sources */,
 				BA798DF4DEEA8368A42FACA9 /* XCSubProjectDefinitionTests.m in Sources */,
 				2B8858CD1D1C55F300DA4047 /* XCBuildShellScriptTests.m in Sources */,
 				BA7986C8A30351EF0AAAF906 /* XCProjectTests.m in Sources */,
@@ -777,6 +780,7 @@
 				BA798387416ACC8CA29F1696 /* XCGroupTests.m in Sources */,
 				BA798642A9D19F92A943EC31 /* XCClassDefinitionTests.m in Sources */,
 				BA7980C2CFE1088A485DEF43 /* XCTestResourceUtils.m in Sources */,
+				A5001E9921639B6C002B396B /* XCProject+SubProject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,13 +838,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -863,7 +877,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -880,13 +894,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -903,7 +927,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -922,8 +946,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = XcodeEditor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = appsquickly.xcode.XcodeEditor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -941,8 +968,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = XcodeEditor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = appsquickly.xcode.XcodeEditor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -954,7 +984,11 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = XcodeEditorTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = appsquickly.xcode.XcodeEditorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -965,7 +999,11 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = XcodeEditorTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = appsquickly.xcode.XcodeEditorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

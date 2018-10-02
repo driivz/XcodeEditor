@@ -16,21 +16,21 @@
 //-------------------------------------------------------------------------------------------
 
 
-+ (XCBuildShellScriptDefinition*_Nonnull)shellScriptDefinitionWithName:(NSString *)name
-                                             files: (NSArray<NSString*>* _Nullable)files
-                                        inputPaths:(NSArray<NSString*>* _Nullable)inputPaths
-                                       outputPaths:(NSArray<NSString*>* _Nullable)outputPaths
-                runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
-                                         shellPath:(NSString*_Nullable)shellPath
-                                       shellScript:(NSString*_Nonnull)shellScript
++ (XCBuildShellScriptDefinition*_Nonnull)shellScriptDefinitionWithName:(NSString * _Nullable )name
+                                                                 files:(NSArray <NSString *> * _Nullable)files
+                                                            inputPaths:(NSArray <NSString *> * _Nullable)inputPaths
+                                                           outputPaths:(NSArray <NSString *> * _Nullable)outputPaths
+                                    runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
+                                                             shellPath:(NSString * _Nullable)shellPath
+                                                           shellScript:(NSString * _Nonnull)shellScript
 {
-    return [[XCBuildShellScriptDefinition alloc]initWithName:name
-                                             files:files
-                                        inputPaths:inputPaths
-                                       outputPaths:outputPaths
-                runOnlyForDeploymentPostprocessing:runOnlyForDeploymentPostprocessing
-                                         shellPath:shellPath
-                                       shellScript:shellScript];
+    return [[XCBuildShellScriptDefinition alloc] initWithName:name
+                                                        files:files
+                                                   inputPaths:inputPaths
+                                                  outputPaths:outputPaths
+                           runOnlyForDeploymentPostprocessing:runOnlyForDeploymentPostprocessing
+                                                    shellPath:shellPath
+                                                  shellScript:shellScript];
 }
 
 //-------------------------------------------------------------------------------------------
@@ -38,16 +38,15 @@
 //-------------------------------------------------------------------------------------------
 
 
-- (instancetype _Nonnull)initWithName:( NSString* _Nullable )name
-                                files: (NSArray<NSString*>* _Nullable)files
-                           inputPaths:(NSArray<NSString*>* _Nullable)inputPaths
-                          outputPaths:(NSArray<NSString*>* _Nullable)outputPaths
+- (instancetype _Nonnull)initWithName:(NSString * _Nullable )name
+                                files:(NSArray <NSString *> * _Nullable)files
+                           inputPaths:(NSArray <NSString *> * _Nullable)inputPaths
+                          outputPaths:(NSArray <NSString *> * _Nullable)outputPaths
    runOnlyForDeploymentPostprocessing:(BOOL)runOnlyForDeploymentPostprocessing
-                            shellPath:(NSString*_Nullable)shellPath
-                          shellScript:(NSString*_Nonnull)shellScript
+                            shellPath:(NSString *_Nullable)shellPath
+                          shellScript:(NSString *_Nonnull)shellScript
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _name = [name stringByRemovingEmoji];
         
         _files =files!=nil?files:@[];
@@ -59,6 +58,7 @@
         _shellScript = shellScript;
         
     }
+    
     return self;
 }
 

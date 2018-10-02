@@ -30,12 +30,12 @@
     return [[XCBuildShellScript alloc]initWithProject:project
                                                   key:key
                                                  name:name
-                                             files:files
-                                        inputPaths:inputPaths
-                                       outputPaths:outputPaths
-                runOnlyForDeploymentPostprocessing:runOnlyForDeploymentPostprocessing
-                                         shellPath:shellPath
-                                       shellScript:shellScript];
+                                                files:files
+                                           inputPaths:inputPaths
+                                          outputPaths:outputPaths
+                   runOnlyForDeploymentPostprocessing:runOnlyForDeploymentPostprocessing
+                                            shellPath:shellPath
+                                          shellScript:shellScript];
 }
 
 //-------------------------------------------------------------------------------------------
@@ -53,8 +53,7 @@
                                shellPath:(NSString *)shellPath
                              shellScript:(NSString *)shellScript
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         
         _project = project;
         _key =  key;
@@ -69,6 +68,7 @@
         _shellScript = shellScript;
         
     }
+    
     return self;
 }
 

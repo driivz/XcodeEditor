@@ -14,9 +14,6 @@
 
 @implementation XCXibDefinition
 
-@synthesize name = _name;
-@synthesize content = _content;
-
 /* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
@@ -34,20 +31,20 @@
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithName:(NSString*)name
+- (instancetype)initWithName:(NSString *)name
 {
     return [self initWithName:name content:nil];
 }
 
 
-- (id)initWithName:(NSString*)name content:(NSString*)content
+- (instancetype)initWithName:(NSString *)name content:(NSString *)content
 {
-    self = [super init];
-    if (self)
+    if (self = [super init])
     {
         _name = [name copy];
         _content = [content copy];
     }
+    
     return self;
 }
 
@@ -55,7 +52,7 @@
 /* ====================================================================================================================================== */
 #pragma mark - Interface Methods
 
-- (NSString*)xibFileName
+- (NSString *)xibFileName
 {
     return [_name stringByAppendingString:@".xib"];
 }

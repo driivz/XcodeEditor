@@ -24,10 +24,10 @@
 - (void)test_returns_an_md5_hash_for_an_NSData_instance
 {
 
-    NSString* requiresKey = @"ESA_Sales_Customer_Browse_ViewController.h";
+    NSString *requiresKey = @"ESA_Sales_Customer_Browse_ViewController.h";
 
     XCKeyBuilder* builtKey = [XCKeyBuilder forItemNamed:requiresKey];
-    NSString* key = [builtKey build];
+    NSString *key = [builtKey build];
     NSLog(@"Key: %@", key);
     XCTAssertNotNil(key);
     XCTAssertEqual(key.length, 24);

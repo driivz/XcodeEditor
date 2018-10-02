@@ -11,24 +11,24 @@
 
 #import "XcodeMemberType.h"
 
-static NSString* const kPBXNilType = @"PBXNilType";
-static NSString* const kPBXBuildFile = @"PBXBuildFile";
-static NSString* const kPBXContainerItemProxy = @"PBXContainerItemProxy";
-static NSString* const kPBXCopyFilesBuildPhase = @"PBXCopyFilesBuildPhase";
-static NSString* const kPBXFileReference = @"PBXFileReference";
-static NSString* const kPBXFrameworksBuildPhase = @"PBXFrameworksBuildPhase";
-static NSString* const kPBXGroup = @"PBXGroup";
-static NSString* const kPBXNativeTarget = @"PBXNativeTarget";
-static NSString* const kPBXProject = @"PBXProject";
-static NSString* const kPBXReferenceProxy = @"PBXReferenceProxy";
-static NSString* const kPBXResourcesBuildPhase = @"PBXResourcesBuildPhase";
-static NSString* const kPBXShellScriptBuildPhase = @"PBXShellScriptBuildPhase";
-static NSString* const kPBXSourcesBuildPhase = @"PBXSourcesBuildPhase";
-static NSString* const kPBXTargetDependency = @"PBXTargetDependency";
-static NSString* const kPBXVariantGroup = @"PBXVariantGroup";
-static NSString* const kXCBuildConfiguration = @"XCBuildConfiguration";
-static NSString* const kXCConfigurationList = @"XCConfigurationList";
-static NSString* const kXCVersionGroup = @"XCVersionGroup";
+static NSString * const kPBXNilType = @"PBXNilType";
+static NSString * const kPBXBuildFile = @"PBXBuildFile";
+static NSString * const kPBXContainerItemProxy = @"PBXContainerItemProxy";
+static NSString * const kPBXCopyFilesBuildPhase = @"PBXCopyFilesBuildPhase";
+static NSString * const kPBXFileReference = @"PBXFileReference";
+static NSString * const kPBXFrameworksBuildPhase = @"PBXFrameworksBuildPhase";
+static NSString * const kPBXGroup = @"PBXGroup";
+static NSString * const kPBXNativeTarget = @"PBXNativeTarget";
+static NSString * const kPBXProject = @"PBXProject";
+static NSString * const kPBXReferenceProxy = @"PBXReferenceProxy";
+static NSString * const kPBXResourcesBuildPhase = @"PBXResourcesBuildPhase";
+static NSString * const kPBXShellScriptBuildPhase = @"PBXShellScriptBuildPhase";
+static NSString * const kPBXSourcesBuildPhase = @"PBXSourcesBuildPhase";
+static NSString * const kPBXTargetDependency = @"PBXTargetDependency";
+static NSString * const kPBXVariantGroup = @"PBXVariantGroup";
+static NSString * const kXCBuildConfiguration = @"XCBuildConfiguration";
+static NSString * const kXCConfigurationList = @"XCConfigurationList";
+static NSString * const kXCVersionGroup = @"XCVersionGroup";
 
 static NSDictionary* DictionaryWithProjectNodeTypesAsStrings() {
     // This is the most vital operation on adding 500+ files
@@ -66,7 +66,7 @@ static NSDictionary* DictionaryWithProjectNodeTypesAsStrings() {
 
 @implementation NSString (XcodeMemberTypeExtensions)
 
-+ (NSString*)xce_stringFromMemberType:(XcodeMemberType)nodeType {
++ (NSString *)xce_stringFromMemberType:(XcodeMemberType)nodeType {
     NSDictionary* nodeTypesToString = DictionaryWithProjectNodeTypesAsStrings();
     return [[nodeTypesToString allKeysForObject:@(nodeType)] firstObject];
 }

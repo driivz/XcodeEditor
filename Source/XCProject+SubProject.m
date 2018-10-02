@@ -39,6 +39,7 @@
             }
         }
     }];
+    
     return result;
 }
 
@@ -63,6 +64,7 @@
             }
         }
     }];
+    
     return results;
 }
 
@@ -86,8 +88,10 @@
 // returns an array of keys for all project objects (not just files) that match the given criteria.  Since this is
 // a convenience method intended to save typing elsewhere, each type has its own field to match to rather than each
 // matching on name or path as you might expect.
-- (NSArray *)keysForProjectObjectsOfType:(XcodeMemberType)memberType withIdentifier:(NSString *)identifier
-    singleton:(BOOL)singleton required:(BOOL)required
+- (NSArray *)keysForProjectObjectsOfType:(XcodeMemberType)memberType
+                          withIdentifier:(NSString *)identifier
+                               singleton:(BOOL)singleton
+                                required:(BOOL)required
 {
     __block NSMutableArray *returnValue = [[NSMutableArray alloc] init];
     [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
@@ -136,17 +140,20 @@
             }
         }
     }];
+    
     if (singleton && [returnValue count] > 1) {
         [NSException raise:NSGenericException
                     format:@"Searched for one instance of member type %@ with value %@, but found %ld",
                            [NSString xce_stringFromMemberType:memberType], identifier,
                            (unsigned long) [returnValue count]];
     }
+    
     if (required && [returnValue count] == 0) {
         [NSException raise:NSGenericException
                     format:@"Searched for instances of member type %@ with value %@, but did not find any",
                            [NSString xce_stringFromMemberType:memberType], identifier];
     }
+    
     return returnValue;
 }
 
@@ -174,16 +181,15 @@
             }
         }
     }];
+    
     if ([results count] > 1) {
         [NSException raise:NSGenericException
             format:@"Searched for one instance of member type %@ with value %@, but found %ld",
                    @"PBXContainerItemProxy", [NSString stringWithFormat:@"%@ and proxyType of %@", name, proxyType],
                 (unsigned long) [results count]];
     }
-    if ([results count] == 0) {
-        return nil;
-    }
-    return results[0];
+    
+    return [results firstObject];
 }
 
 //-------------------------------------------------------------------------------------------
@@ -192,8 +198,10 @@
 
 
 // makes a PBXContainerItemProxy object for a given PBXFileReference object.  Replaces pre-existing objects.
-- (NSString *)makeContainerItemProxyForName:(NSString *)name fileRef:(NSString *)fileRef proxyType:(NSString *)proxyType
-    uniqueName:(NSString *)uniqueName
+- (NSString *)makeContainerItemProxyForName:(NSString *)name
+                                    fileRef:(NSString *)fileRef
+                                  proxyType:(NSString *)proxyType
+                                 uniqueName:(NSString *)uniqueName
 {
     NSString *keyName;
     if (uniqueName != nil) {
@@ -225,17 +233,20 @@
 
 // makes a PBXReferenceProxy object for a given PBXContainerProxy object.  Replaces pre-existing objects.
 - (void)makeReferenceProxyForContainerItemProxy:(NSString *)containerItemProxyKey
-    buildProductReference:(NSDictionary *)buildProductReference
+                          buildProductReference:(NSDictionary *)buildProductReference
 {
     NSString *path = [buildProductReference valueForKey:@"path"];
     // remove old if any exists
-    NSArray *existingProxyKeys = [self keysForProjectObjectsOfType:PBXReferenceProxyType withIdentifier:path
-        singleton:NO required:NO];
+    NSArray *existingProxyKeys = [self keysForProjectObjectsOfType:PBXReferenceProxyType
+                                                    withIdentifier:path
+                                                         singleton:NO
+                                                          required:NO];
     if ([existingProxyKeys count] > 0) {
         for (NSString *existingProxyKey in existingProxyKeys) {
             [[self objects] removeObjectForKey:existingProxyKey];
         }
     }
+    
     // make new one
     NSMutableDictionary *proxy = [NSMutableDictionary dictionary];
     proxy[@"isa"] = [NSString xce_stringFromMemberType:PBXReferenceProxyType];
@@ -249,8 +260,9 @@
 }
 
 // makes a PBXTargetDependency object for a given PBXContainerItemProxy.  Replaces pre-existing objects.
-- (NSString *)makeTargetDependency:(NSString *)name forContainerItemProxyKey:(NSString *)containerItemProxyKey
-    uniqueName:(NSString *)uniqueName
+- (NSString *)makeTargetDependency:(NSString *)name
+          forContainerItemProxyKey:(NSString *)containerItemProxyKey
+                        uniqueName:(NSString *)uniqueName
 {
     NSString *keyName;
     if (uniqueName != nil) {
@@ -275,6 +287,7 @@
     NSString *targetDependencyKey = [[XCKeyBuilder forItemNamed:[NSString stringWithFormat:@"%@-targetProxy", keyName]]
         build];
     [self objects][targetDependencyKey] = targetDependency;
+    
     return targetDependencyKey;
 }
 
@@ -325,6 +338,7 @@
             productsGroupKey = [projectRef valueForKey:@"ProductGroup"];
         }
     }
+    
     return productsGroupKey;
 }
 
@@ -360,6 +374,7 @@
     if ([targetDependencyKeys count] == 0) {
         return;
     }
+    
     NSString *targetDependencyKey = targetDependencyKeys[0];
     // use the key for the PBXTargetDependency to get the key for any PBXNativeTargets that depend on it
     NSArray *nativeTargetKeys = [self keysForProjectObjectsOfType:PBXNativeTargetType withIdentifier:targetDependencyKey

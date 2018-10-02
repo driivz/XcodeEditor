@@ -77,7 +77,8 @@
     XCProject* project = [[XCProject alloc] initWithFilePath:XCBox2dSampleProjectPath()];
     XCTarget* target = [project targetWithName:@"HelloBoxy"];
 
-    XCTarget* duplicated = [target duplicateWithTargetName:@"DuplicatedTarget" productName:@"NewProduct"];
+    __unused XCTarget* duplicated = [target duplicateWithTargetName:@"DuplicatedTarget"
+                                                        productName:@"NewProduct"];
     [project save];
 }
 

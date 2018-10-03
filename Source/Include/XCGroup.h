@@ -33,7 +33,6 @@
 @interface XCGroup : NSObject <XcodeGroupMember, XCBuildFile>
 {
     
-    NSString *_pathRelativeToParent;
     NSString *_key;
     NSString *_alias;
     
@@ -112,6 +111,8 @@
 
 - (void)removeFromParentDeletingChildren:(BOOL)deleteChildren;
 
+- (void)removeChildren;
+
 - (XCGroup*)parentGroup;
 
 - (BOOL)isRootGroup;
@@ -135,7 +136,7 @@
  */
 - (void)removeClass:(XCClassDefinition *)classDefinition fromTargets:(NSArray *)targets;
 
-/** 
+/**
  * Removes a header from the _group
  */
 - (void)removeHeader:(XCClassDefinition *)classDefinition;

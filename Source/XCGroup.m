@@ -26,6 +26,12 @@
 #import "XcodeMemberType.h"
 #import "XCVersionGroup.h"
 
+@interface XCGroup ()
+
+@property(nonatomic, strong, readwrite) NSString *pathRelativeToParent;
+
+@end
+
 @implementation XCGroup
 
 
@@ -134,6 +140,19 @@
     for (XCTarget *target in [_project targets]) {
         [target removeMembersWithKeys:[self recursiveMembers]];
     }
+    NSLog(@"Done!!!");
+}
+
+- (void)removeChildren
+{
+    for (XCTarget *target in [_project targets]) {
+        [target removeMembersWithKeys:[self recursiveMembers]];
+    }
+    
+    [self.children removeAllObjects];
+    
+    [[_project objects] setObject:[self asDictionary] forKey:_key];
+    
     NSLog(@"Done!!!");
 }
 
